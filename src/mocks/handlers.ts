@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
- 
+
 export const handlers = [
   http.get('http://localhost:5173/user', () => {
     return HttpResponse.json({
@@ -8,10 +8,13 @@ export const handlers = [
       lastName: 'Maverick',
     })
   }),
-  http.post('http://localhost:5173/create', () => {
+
+  http.post('http://localhost:5173/create', async ({ request }) => {
+    const newUser = await request.json();
 
     return HttpResponse.json({
-        status: 200,
+      status: 200,
+      username: newUser.username,
     });
   }),
 ]

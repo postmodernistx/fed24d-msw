@@ -1,9 +1,9 @@
 // @vitest-environment node
 import { test, expect } from 'vitest'
- 
+
 test('responds with the user', async () => {
   const response = await fetch('http://localhost:5173/user')
- 
+
   await expect(response.json()).resolves.toEqual({
     id: 'abc-123',
     firstName: 'John',
@@ -12,14 +12,21 @@ test('responds with the user', async () => {
 })
 
 test('create new user', async () => {
-    const response = await fetch('http://localhost:5173/create', {
-        method: 'POST',
-        body: JSON.stringify("{ username: 'kalleanka' }")
-    })
+  const newUserData = {
+    username: 'kalleanka',
+    password: 'mimmi'
+  };
 
-    await expect(response.json()).resolves.toEqual({
-        test: 'hej',
-        username: 'abc',
-        status: 200,
-    })
+  const response = await fetch('http://localhost:5173/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newUserData),
+  });
+
+  await expect(response.json()).resolves.toEqual({
+      username: newUserData.username,
+      status: 200,
+  })
 })
